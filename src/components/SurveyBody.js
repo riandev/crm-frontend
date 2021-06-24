@@ -29,7 +29,7 @@ const SurveyBody = () => {
     setSearchNumber(e.target.value);
   };
   useEffect(() => {
-    fetch("http://localhost:5000/dMatched")
+    fetch("http://192.168.1.243:5000/dMatched")
       .then((res) => res.json())
       .then((dData) => setDlist(dData));
   }, []);
@@ -77,6 +77,8 @@ const SurveyBody = () => {
     console.log('Q8checked = ', checkedValues8);
     setQ8(checkedValues8);
   };
+  const agent= sessionStorage.getItem('agent');
+  console.log(agent);
   const handleSubmit = (e) => {
     const answer = {
       ans1: q1,
@@ -91,8 +93,9 @@ const SurveyBody = () => {
       ans6: q6,
       ans7: q7,
       ans8: q8,
+      agentID:agent
     };
-    fetch(`http://localhost:5000/answers/${consumer._id}`, {
+    fetch(`http://192.168.1.243:5000/answers/${consumer._id}`, {
       method: "PATCH",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(answer),

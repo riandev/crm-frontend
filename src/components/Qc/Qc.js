@@ -13,12 +13,12 @@ const Qc = () => {
     setQcNumber(e.target.value);
   };
   useEffect(() => {
-    fetch("http://localhost:5000/dMatched")
+    fetch("http://192.168.1.243:5000/dMatched")
     .then((res) => res.json())
     .then((dData) => setDlist(dData));
   }, []);
   const handleSearch = () => {
-    // fetch(`http://localhost:5000/qc/${qcNumber}`)
+    // fetch(`http://192.168.1.243:5000/qc/${qcNumber}`)
     //   .then((res) => res.json())
     //   .then((data) => setMatchedQC(data));
     const dNumber = dList.find((d) => d.Consumer_No === qcNumber);
@@ -27,7 +27,7 @@ const Qc = () => {
   };
   const handleUpdate = (id) => {
     console.log(id);
-    fetch(`http://localhost:5000/update/${id}`)
+    fetch(`http://192.168.1.243:5000/update/${id}`)
       .then((res) => res.json())
       .then((data) => setUpdate(data));
   };
@@ -50,6 +50,7 @@ const Qc = () => {
           Search
         </button>
       </div>
+      <p className="mt-3 container">Agent ID:{matchedQC?.agentID}</p>
       <div>
         <table className="table table-borderless table-hover">
           <thead>

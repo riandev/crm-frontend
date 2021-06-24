@@ -7,6 +7,7 @@ import { Checkbox } from "antd";
 const FinalUpdateQc = ({ ansData }) => {
   console.log(ansData);
   const [q7QcUpdate, setQ7QcUpdate] = useState([]);
+  console.log(q7QcUpdate);
   const [q8QcUpdate, setQ8QcUpdate] = useState([]);
   const [status, setStatus] = useState(false);
   const id = ansData._id;
@@ -22,17 +23,36 @@ const FinalUpdateQc = ({ ansData }) => {
   const q8Update = (checkbox8) => {
     setQ8QcUpdate(checkbox8);
   };
+  const handleUpdateQ7 = () => {
+    fetch(`http://192.168.1.243:5000/updateQ7/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(q7QcUpdate),
+    })
+      .then((res) => res.json())
+      .then((output) => setStatus(output));
+      window.location.reload(false);
+  };
+  const handleUpdateQ8 = () => {
+    fetch(`http://192.168.1.243:5000/updateQ8/${id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(q8QcUpdate),
+    })
+      .then((res) => res.json())
+      .then((output) => setStatus(output));
+      window.location.reload(false);
+  };
   const onSubmit = (data) => {
-    data.answer7 = q7QcUpdate;
-    data.answer8 = q8QcUpdate;
     console.log(data);
-    fetch(`http://localhost:5000/finalUpdate/${id}`, {
+    fetch(`http://192.168.1.243:5000/finalUpdate/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
       .then((output) => setStatus(output));
+      window.location.reload(false);
   };
 
   return (
@@ -185,6 +205,9 @@ const FinalUpdateQc = ({ ansData }) => {
             </Form.Control>
           </Form.Group>
         </Form.Row>
+        <input className="btn btn-danger" type="submit" />
+      </form>
+      <div>
         <Form.Row>
           <Form.Group as={Col} controlId="formGridCity11">
             <Form.Label>
@@ -279,6 +302,7 @@ const FinalUpdateQc = ({ ansData }) => {
                 </Checkbox>
               </Col>
             </Checkbox.Group>
+            <button className='btn btn-danger' onClick={handleUpdateQ7}>Update Q7</button>
           </Form.Group>
           <Form.Group as={Col} controlId="formGridCity12">
             <Form.Label>
@@ -353,10 +377,10 @@ const FinalUpdateQc = ({ ansData }) => {
                 </Checkbox>
               </Col>
             </Checkbox.Group>
+            <button className='btn btn-danger' onClick={handleUpdateQ8}>Update Q8</button>
           </Form.Group>
         </Form.Row>
-        <input className="btn btn-danger" type="submit" />
-      </form>
+      </div>
       <div>{status === true && alert("Data Updated Successfully")}</div>
     </div>
   );
